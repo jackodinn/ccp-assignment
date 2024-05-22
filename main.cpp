@@ -318,17 +318,17 @@ class UltimateRobot : public MovingRobot, public SteppingRobot, public SeeingRob
 
 // battelefield
 class Battlefield
-{
-    int num_robots;
-    char** grid;
-    int width, height;
-    Robot* robots[num_robots];
-    int robotCount;
+{ protected:
+        int num_robots;
+        char** grid;
+        int width, height;
+        Robot* robots[num_robots];
+        int robotCount;
 
     public:
         Battlefield(int w, int h) : width(w), height(h), robotCount(0)
         {
-            grid - new char*[height];
+            grid = new char*[height];
             for (int i = 0; i < height; ++i)
             {
                 grid[i] = new char[width];
@@ -348,22 +348,47 @@ class Battlefield
             delete[] grid;
         }
 
-        void addRobot(Robot* robot)
+        void addRobot(int x, int y, char symbol)
         {
-            if (robotCount < num_robots)
+            if (x >= 0 && x < width && y >= 0 && y < height)
             {
-                robot[robotCount++] = robot;
+                grid[y][x] = symbol;
             }
         }
 
-        void display()
+        void display() const
         {
-            for (int y = 0; y < height; ++y)
+            // print column
+            cout << "   ";
+            for (int x = 1; x <= width; ++x)
             {
-                for (int x = 0; x < width; ++x)
+                if (x < 10)
                 {
-                    cout << endl;
+                    cout << x << "  ";
                 }
+                else
+                {
+                    cout << x << " ";
+                }
+            }
+            cout << endl;
+
+            // print row column
+            for ( int y = 1; y <= height; ++y)
+            {
+                if ( y < 10)
+                {
+                    cout << y << "  ";
+                }
+                else
+                {
+                    cout << y << " ";
+                }
+                for ( int x = 0; x < width; ++x)
+                {
+                    cout << grid[y - 1][x] << "  ";
+                }
+                cout << endl;
             }
         }
 
@@ -382,5 +407,18 @@ class Battlefield
                     }
                 }
             }
+        }
+
+        bool moveRobot(int oldX, int oldY, int newX, int newY, char symbol) 
+        {
+            if (oldX >= 0 && oldX < width && oldY >= 0 && oldY < height &&
+                newX >= 0 && newX < width && newY >= 0 && newY < height &&
+                grid[oldY][oldX] == symbol && grid[newY][newX] == '. ') 
+                {
+                    grid[oldY][oldX] = '.'; // Clear old position
+                    grid[newY][newX] = symbol; // Place robot in new position
+                    return true;
+                }
+            return false;    
         }
 };
