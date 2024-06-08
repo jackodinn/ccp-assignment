@@ -28,11 +28,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                     robocop->shoot();
                     robocop->shoot();
 
-                    if (robocop->getkills() >= 3)
+                    if (robocop->getkills() >= 1)
                     {
                         robots[i] = new TerminatorRoboCop(bf, robocop->getname(), robocop->getx(), robocop->gety());
-                        delete robocop; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to TerminatorRoboCop!!" << endl;
+                        //delete robocop;  removed cuz of bug
+                        cout << endl << "EVOLVE ALERT  -  " << robots[i]->getname() << " has upgraded to TerminatorRoboCop!!" << endl;
                     }
                 }
             }
@@ -43,11 +43,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                     terminator->look(0, 0);
                     terminator->step();
 
-                    if (terminator->getkills() >= 3)
+                    if (terminator->getkills() >= 1)
                     {
                         robots[i] = new TerminatorRoboCop(bf, terminator->getname(), terminator->getx(), terminator->gety());
-                        delete terminator; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to TerminatorRoboCop!!" << endl;
+                        //delete terminator;  removed due to bug
+                        cout << endl << "EVOLVE ALERT  -  "  << robots[i]->getname() << " has upgraded to TerminatorRoboCop!!" << endl;
                     }
                 }
             }
@@ -61,11 +61,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                     terminatorRoboCop->shoot();
                     terminatorRoboCop->shoot();
 
-                    if (terminatorRoboCop->getkills() >= 3)
+                    if (terminatorRoboCop->getkills() >= 1)
                     {
                         robots[i] = new UltimateRobot(bf, terminatorRoboCop->getname(), terminatorRoboCop->getx(), terminatorRoboCop->gety());
-                        delete terminatorRoboCop; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to UltimateRobot!!" << endl;
+                        //delete terminatorRoboCop; removed due to bug
+                        cout << endl << "EVOLVE ALERT  -  "  << robots[i]->getname() << " has upgraded to UltimateRobot!!" << endl;
                     }
                 }
             }
@@ -75,11 +75,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                 {
                     bluethunder->clockshoot();
 
-                    if (bluethunder->getkills() >= 3)
+                    if (bluethunder->getkills() >= 1)
                     {
                         robots[i] = new Madbot(bf, bluethunder->getname(), bluethunder->getx(), bluethunder->gety());
-                        delete bluethunder; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to Madbot!!" << endl;
+                        //delete bluethunder; removed due to bug
+                        cout << endl << "EVOLVE ALERT  -  "  << robots[i]->getname() << " has upgraded to Madbot!!" << endl;
                     }
                 }
             }
@@ -89,11 +89,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                 {
                     madbot->randshoot();
 
-                    if (madbot->getkills() >= 3)
+                    if (madbot->getkills() >= 1)
                     {
                         robots[i] = new RoboTank(bf, madbot->getname(), madbot->getx(), madbot->gety());
-                        delete madbot; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to RoboTank!!" << endl;
+                        //delete madbot; removed due to bug
+                        cout << endl << "EVOLVE ALERT  -  "  << robots[i]->getname() << " has upgraded to RoboTank!!" << endl;
                     }
                 }
             }
@@ -103,11 +103,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                 {
                     robotank->randshootpro();
 
-                    if (robotank->getkills() >= 3)
+                    if (robotank->getkills() >= 1)
                     {
                         robots[i] = new UltimateRobot(bf, robotank->getname(), robotank->getx(), robotank->gety());
-                        delete robotank; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to RoboTank!!" << endl;
+                        //delete robotank; removed due to bug
+                        cout << endl << "EVOLVE ALERT  -  "  << robots[i]->getname() << " has upgraded to RoboTank!!" << endl;
                     }
                 }
             }

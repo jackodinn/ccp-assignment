@@ -12,13 +12,17 @@ int main()
     BattleField bf(battlefieldLength, battlefieldHeight);
 
     // Create an array of robots
-    int numRobots = 3;
+    int numRobots = 7;
     Robot *robots[numRobots];
 
     // Initialize robots with different types and positions
-    robots[0] = new RoboCop(bf, "Robocop", 1, 3);
-    robots[1] = new Terminator(bf, "Terminator", 6, 2);
-    robots[2] = new BlueThunder(bf, "Bluethunder", 3, 9);
+    robots[0] = new RoboCop(bf, "Robot 1 - Robocop", 1, 3);
+    robots[1] = new Terminator(bf, "Robot 2 - Terminator", 4, 2);
+    robots[2] = new BlueThunder(bf, "Robot 3 - Bluethunder", 3, 0);
+    robots[3] = new RoboCop(bf, "Robot 4 - Robocop", 6, 9);
+    robots[4] = new Terminator(bf, "Robot 5 - Terminator", 2, 6);
+    robots[5] = new BlueThunder(bf, "Robot 6 - Bluethunder", 9, 0);
+    robots[6] = new Madbot(bf, "Robot 7 - Madbot", 0, 0);
 
     // Simulate the battle for a number of turns
     int numTurns = 50;
@@ -35,7 +39,7 @@ int main()
 
 /* cmd command line compile
 
-g++ -g Main.cpp Bf.cpp R.cpp Sim.cpp -o a.exe
+g++ -g Main.cpp Bf.cpp R.cpp Sim.cpp -o main.exe
 .\a
 
 */

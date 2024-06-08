@@ -10,6 +10,23 @@ Robot::Robot(BattleField &obj, string n, int x, int y) : bf(obj), name(n), lives
     bf.set(this, xaxis, yaxis);
 }
 
+Robot& Robot::operator=(const Robot& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Copy all the members
+    this->bf = other.bf;
+    this->name = other.name;
+    this->xaxis = other.xaxis;
+    this->yaxis = other.yaxis;
+    this->lives = other.lives;
+    this->symbol = other.symbol;
+    this->kills = other.kills;
+
+    return *this;
+}
+
 Robot::~Robot()
 {
     bf.terminate(xaxis, yaxis);
@@ -240,6 +257,19 @@ RoboCop::RoboCop(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
     setsymbol('r');
 }
 
+RoboCop& RoboCop::operator=(const RoboCop& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy RoboCop-specific members if any
+
+    return *this;
+}
+
 void RoboCop::shoot()
 {
     int x;
@@ -255,6 +285,19 @@ void RoboCop::shoot()
 Terminator::Terminator(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x, y), Stepping(obj, n, x, y), Looking(obj, n, x, y)
 {
     setsymbol('t');
+}
+
+Terminator& Terminator::operator=(const Terminator& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy Terminator-specific members if any
+
+    return *this;
 }
 
 void Terminator::step()
@@ -314,6 +357,19 @@ TerminatorRoboCop::TerminatorRoboCop(BattleField &obj, std::string n, int x, int
     setsymbol('T');
 }
 
+TerminatorRoboCop& TerminatorRoboCop::operator=(const TerminatorRoboCop& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy Terminator-specific members if any
+
+    return *this;
+}
+
 void TerminatorRoboCop::look(int x, int y)
 {
     RoboCop::look(x, y);
@@ -322,6 +378,20 @@ void TerminatorRoboCop::look(int x, int y)
 BlueThunder::BlueThunder(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x, y), Shooting(obj, n, x, y)
 {
     setsymbol('b');
+}
+
+BlueThunder& BlueThunder::operator=(const BlueThunder& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy BlueThunder-specific members if any
+
+    return *this;
 }
 
 void BlueThunder::clockshoot()
@@ -386,6 +456,20 @@ Madbot::Madbot(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x,
     setsymbol('M');
 }
 
+Madbot& Madbot::operator=(const Madbot& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy BlueThunder-specific members if any
+
+    return *this;
+}
+
 void Madbot::randshoot()
 {
     int x;
@@ -403,6 +487,20 @@ RoboTank::RoboTank(BattleField &obj, std::string n, int x, int y) : Robot(obj, n
     setsymbol('R');
 }
 
+RoboTank& RoboTank::operator=(const RoboTank& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy BlueThunder-specific members if any
+
+    return *this;
+}
+
 void RoboTank ::randshootpro()
 {
     int x;
@@ -418,5 +516,19 @@ void RoboTank ::randshootpro()
 UltimateRobot::UltimateRobot(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x, y), TerminatorRoboCop(obj, n, x, y), RoboTank(obj, n, x, y)
 {
     setsymbol('U');
+}
+
+UltimateRobot& UltimateRobot::operator=(const UltimateRobot& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+
+    // Copy BlueThunder-specific members if any
+
+    return *this;
 }
 

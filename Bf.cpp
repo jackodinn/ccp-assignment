@@ -61,10 +61,10 @@ void BattleField::respawn(int x, int y)
     {
         newx = rand() % length;
         newy = rand() % height;
-    } while (!range(newx, newy) || obj[newx][newy] != nullptr);
+    } while (!range(newx, newy) || obj[newy][newx] != nullptr);
     set(obj[y][x], newx, newy);
     terminate(x, y);
-    cout << obj[newy][newx]->getname() << " has respawned at (" << newx << ", " << newy << ")." << endl;
+    cout << endl << "RESPAWN ALERT  -  " << obj[newy][newx]->getname() << " has respawned at (" << newx << ", " << newy << ")." << endl;
 }
 
 void BattleField::remove(int x, int y)
