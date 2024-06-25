@@ -2,12 +2,30 @@
 #include "Bf.h"
 #include <ctime>
 #include <iostream>
+#include <ostream>
 using namespace std;
 
 Robot::Robot(BattleField &obj, string n, int x, int y) : bf(obj), name(n), lives(3), symbol('0'), kills(0)
 {
     setxy(x, y);
     bf.set(this, xaxis, yaxis);
+}
+
+Robot& Robot::operator=(const Robot& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Copy all the members
+    this->bf = other.bf;
+    this->name = other.name;
+    this->xaxis = other.xaxis;
+    this->yaxis = other.yaxis;
+    this->lives = other.lives;
+    this->symbol = other.symbol;
+    this->kills = other.kills;
+
+    return *this;
 }
 
 Robot::~Robot()
@@ -73,20 +91,27 @@ Shooting::Shooting(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, 
 
 void Shooting::shoot(int x, int y)
 {
+    ofstream outfile;
+    outfile.open("battlefieldlog.txt", ios::app);
+    string name = getname();
     try
     {
-        cout << getname() << " has shoot at position (" << x << ", " << y << ")." << endl;
+        std::cout << name << " has shoot at position (" << x << ", " << y << ")." << endl;
+        outfile << name << " has shoot at position (" << x << ", " << y << ")." << endl;
         if (bf.getobj(x, y) != nullptr)
         {
             increkill();
-            cout << "Robot at position (" << x << ", " << y << ") has been shooted." << endl;
+            std::cout << "Robot at position (" << x << ", " << y << ") has been shooted." << endl;
+            outfile << "Robot at position (" << x << ", " << y << ") has been shooted." << endl;
         }
         bf.remove(x, y);
     }
     catch (...)
     {
-        cout << getname() << " has shoot at empty space." << endl;
+        std::cout << name << " has shoot at empty space." << endl;
+        outfile << name << " has shoot at empty space." << endl;
     }
+    outfile.close();
 }
 
 Moving::Moving(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
@@ -94,8 +119,12 @@ Moving::Moving(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
     setsymbol('M');
 }
 
+
 void Moving::move()
 {
+    ofstream outfile;
+    outfile.open("battlefieldlog.txt", ios::app);
+    string name = getname();
     int newX;
     int newY;
     do
@@ -139,7 +168,9 @@ void Moving::move()
     xaxis = newX;
     yaxis = newY;
     bf.set(this, xaxis, yaxis);
-    cout << getname() << " has moved to position (" << xaxis << ", " << yaxis << ")." << endl;
+    std::cout << name << " has moved to position (" << xaxis << ", " << yaxis << ")." << endl;
+    outfile << name << " has moved to position (" << xaxis << ", " << yaxis << ")." << endl;
+    outfile.close();
 }
 
 Stepping::Stepping(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
@@ -149,22 +180,28 @@ Stepping::Stepping(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, 
 
 void Stepping::step(int x, int y)
 {
+    ofstream outfile;
+    outfile.open("battlefieldlog.txt", ios::app);
+    string name = getname();
     try
     {
         if (bf.getobj(x, y) != nullptr)
         {
-            cout << getname() << " has stepped on a robot at position (" << x << ", " << y << ")." << endl;
+            std::cout << name << " has stepped on a robot at position (" << x << ", " << y << ")." << endl;
+            outfile << name << " has stepped on a robot at position (" << x << ", " << y << ")." << endl;
         }
         bf.remove(x, y);
     }
     catch (...)
     {
-        cout << getname() << " has moved to position (" << x << ", " << y << ")." << endl;
+        outfile << name << " has moved to position (" << x << ", " << y << ")." << endl;
+        std::cout << name << " has moved to position (" << x << ", " << y << ")." << endl;
     }
     bf.terminate(xaxis, yaxis);
     xaxis = x;
     yaxis = y;
     bf.set(this, xaxis, yaxis);
+    outfile.close();
 }
 
 Looking::Looking(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
@@ -174,15 +211,20 @@ Looking::Looking(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
 
 void Looking::look(int x, int y)
 {
+    ofstream outfile;
+    outfile.open("battlefieldlog.txt", ios::app);
     int enemy = 0;
     int rangex = xaxis + x;
     int rangey = yaxis + y;
+    string name = getname();
     if (!bf.range(rangex, rangey))
     {
-        cout << bf.invalid();
+        std::cout << bf.invalid();
+        outfile << bf.invalid();
         return;
     }
-    cout << getname() << " has looked into position (" << rangex << ", " << rangey << ")." << endl;
+    std::cout << name << " has looked into position (" << rangex << ", " << rangey << ")." << endl;
+    outfile << name << " has looked into position (" << rangex << ", " << rangey << ")." << endl;
     for (int i = rangey - 1; i <= rangey + 1; i++)
     {
         for (int j = rangex - 1; j <= rangex + 1; j++)
@@ -199,14 +241,17 @@ void Looking::look(int x, int y)
     }
     if (enemy != 0)
     {
-        cout << "The position nearby contains " << enemy << " robot(s)." << endl;
+        std::cout << "The position nearby contains " << enemy << " robot(s)." << endl;
+        outfile << "The position nearby contains " << enemy << " robot(s)." << endl;
         setdetect(1);
     }
     else
     {
-        cout << "The position nearby does not contain any robot(s)." << endl;
+        std::cout << "The position nearby does not contain any robot(s)." << endl;
+        outfile<< "The position nearby does not contain any robot(s)." << endl;
         setdetect(0);
     }
+    outfile.close();
 }
 
 void Looking::setdetect(bool b)
@@ -240,6 +285,16 @@ RoboCop::RoboCop(BattleField &obj, string n, int x, int y) : Robot(obj, n, x, y)
     setsymbol('r');
 }
 
+RoboCop& RoboCop::operator=(const RoboCop& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
+}
+
 void RoboCop::shoot()
 {
     int x;
@@ -255,6 +310,16 @@ void RoboCop::shoot()
 Terminator::Terminator(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x, y), Stepping(obj, n, x, y), Looking(obj, n, x, y)
 {
     setsymbol('t');
+}
+
+Terminator& Terminator::operator=(const Terminator& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
 }
 
 void Terminator::step()
@@ -314,6 +379,16 @@ TerminatorRoboCop::TerminatorRoboCop(BattleField &obj, std::string n, int x, int
     setsymbol('T');
 }
 
+TerminatorRoboCop& TerminatorRoboCop::operator=(const TerminatorRoboCop& other) {
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
+}
+
 void TerminatorRoboCop::look(int x, int y)
 {
     RoboCop::look(x, y);
@@ -322,6 +397,17 @@ void TerminatorRoboCop::look(int x, int y)
 BlueThunder::BlueThunder(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x, y), Shooting(obj, n, x, y)
 {
     setsymbol('b');
+}
+
+BlueThunder& BlueThunder::operator=(const BlueThunder& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
 }
 
 void BlueThunder::clockshoot()
@@ -386,6 +472,17 @@ Madbot::Madbot(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x,
     setsymbol('M');
 }
 
+Madbot& Madbot::operator=(const Madbot& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
+}
+
 void Madbot::randshoot()
 {
     int x;
@@ -403,6 +500,17 @@ RoboTank::RoboTank(BattleField &obj, std::string n, int x, int y) : Robot(obj, n
     setsymbol('R');
 }
 
+RoboTank& RoboTank::operator=(const RoboTank& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
+}
+
 void RoboTank ::randshootpro()
 {
     int x;
@@ -418,5 +526,16 @@ void RoboTank ::randshootpro()
 UltimateRobot::UltimateRobot(BattleField &obj, std::string n, int x, int y) : Robot(obj, n, x, y), TerminatorRoboCop(obj, n, x, y), RoboTank(obj, n, x, y)
 {
     setsymbol('U');
+}
+
+UltimateRobot& UltimateRobot::operator=(const UltimateRobot& other)
+{
+    if (this == &other) {
+        return *this; // Handle self assignment
+    }
+
+    // Call base class assignment operator
+    Robot::operator=(other);
+    return *this;
 }
 

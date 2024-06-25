@@ -3,6 +3,7 @@
 
 #include "R.h"
 #include <string>
+#include <fstream>
 
 class BattleField
 {
@@ -21,11 +22,12 @@ public:
     void respawn(int x, int y);
     void remove(int x, int y);
     void terminate(int x, int y);
-    void display() const;
+    void display(std::ostream &out) const;
 
     Robot *getobj(int x, int y) const;
     int getlength() const;
     int getheight() const;
+    void updateRobot(Robot * newRobot);
 };
 
 #endif
