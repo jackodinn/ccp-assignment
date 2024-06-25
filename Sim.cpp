@@ -4,15 +4,84 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
+
+void calcTurns(int turns)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    std::cout << "Turn " << turns << endl
+              << endl;
+    file << endl
+         << "Turn  " << turns << endl
+         << endl;
+    file.close();
+}
+
+void evolveRobocop(string name)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    file << "EVOLVE ALERT  -  " << name << " has upgraded to TerminatorRoboCop!!" << endl;
+    file.close();
+    std::cout << "EVOLVE ALERT  -  " << name << " has upgraded to TerminatorRoboCop!!" << endl;
+}
+
+void evolveTerminator(string name)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    file << "EVOLVE ALERT  -  " << name << " has upgraded to TerminatorRoboCop!!" << endl;
+    file.close();
+    std::cout << "EVOLVE ALERT  -  " << name << " has upgraded to TerminatorRoboCop!!" << endl;
+}
+
+void evolveTerminatorRobocop(string name)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    file << "EVOLVE ALERT  -  " << name << " has upgraded to UltimateRobot!!" << endl;
+    file.close();
+    std::cout << "EVOLVE ALERT  -  " << name << " has upgraded to UltimateRobot!!" << endl;
+}
+
+void evolveBluethunder(string name)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    file << "EVOLVE ALERT  -  " << name << " has upgraded to Madbot!!" << endl;
+    file.close();
+    std::cout << "EVOLVE ALERT  -  " << name << " has upgraded to Madbot!!" << endl;
+}
+
+void evolveMadbot(string name)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    file << "EVOLVE ALERT  -  " << name << " has upgraded to RoboTank!!" << endl;
+    file.close();
+    std::cout << "EVOLVE ALERT  -  " << name << " has upgraded to RoboTank!!" << endl;
+}
+
+void evolveRobotank(string name)
+{
+    ofstream file;
+    file.open("battlefieldlog.txt", ios::app);
+    file << "EVOLVE ALERT  -  " << name << " has upgraded to UltimateRobot!!" << endl;
+    file.close();
+    std::cout << "EVOLVE ALERT  -  " << name << " has upgraded to UltimateRobot!!" << endl;
+}
 
 void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlefieldLength, int battlefieldHeight, int numTurns)
 {
     srand(static_cast<unsigned int>(time(0))); // Seed for random number generation
-
-    for (int turn = 0; turn < numTurns; ++turn)
+    int turns;
+    for (turns = 1; turns <= numTurns; turns++)
     {
-        cout << "Turn " << turn + 1 << ":\n";
+
+        calcTurns(turns);
 
         for (int i = 0; i < numRobots; ++i)
         {
@@ -28,11 +97,13 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                     robocop->shoot();
                     robocop->shoot();
 
-                    if (robocop->getkills() >= 3)
+                    if (robocop->getkills() >= 1)
                     {
+                        string name = robocop->getname();
+                        evolveRobocop(name);
                         robots[i] = new TerminatorRoboCop(bf, robocop->getname(), robocop->getx(), robocop->gety());
-                        delete robocop; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to TerminatorRoboCop!!" << endl;
+                        delete robocop;
+                        bf.updateRobot(robots[i]);
                     }
                 }
             }
@@ -43,11 +114,13 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                     terminator->look(0, 0);
                     terminator->step();
 
-                    if (terminator->getkills() >= 3)
+                    if (terminator->getkills() >= 1)
                     {
+                        string name = terminator->getname();
+                        evolveTerminator(name);
                         robots[i] = new TerminatorRoboCop(bf, terminator->getname(), terminator->getx(), terminator->gety());
-                        delete terminator; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to TerminatorRoboCop!!" << endl;
+                        delete terminator;
+                        bf.updateRobot(robots[i]);
                     }
                 }
             }
@@ -61,11 +134,13 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                     terminatorRoboCop->shoot();
                     terminatorRoboCop->shoot();
 
-                    if (terminatorRoboCop->getkills() >= 3)
+                    if (terminatorRoboCop->getkills() >= 1)
                     {
+                        string name = terminatorRoboCop->getname();
+                        evolveTerminatorRobocop(name);
                         robots[i] = new UltimateRobot(bf, terminatorRoboCop->getname(), terminatorRoboCop->getx(), terminatorRoboCop->gety());
-                        delete terminatorRoboCop; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to UltimateRobot!!" << endl;
+                        delete terminatorRoboCop;
+                        bf.updateRobot(robots[i]);
                     }
                 }
             }
@@ -75,11 +150,13 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                 {
                     bluethunder->clockshoot();
 
-                    if (bluethunder->getkills() >= 3)
+                    if (bluethunder->getkills() >= 1)
                     {
+                        string name = bluethunder->getname();
+                        evolveBluethunder(name);
                         robots[i] = new Madbot(bf, bluethunder->getname(), bluethunder->getx(), bluethunder->gety());
-                        delete bluethunder; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to Madbot!!" << endl;
+                        delete bluethunder;
+                        bf.updateRobot(robots[i]);
                     }
                 }
             }
@@ -89,11 +166,13 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                 {
                     madbot->randshoot();
 
-                    if (madbot->getkills() >= 3)
+                    if (madbot->getkills() >= 1)
                     {
+                        string name = madbot->getname();
+                        evolveMadbot(name);
                         robots[i] = new RoboTank(bf, madbot->getname(), madbot->getx(), madbot->gety());
-                        delete madbot; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to RoboTank!!" << endl;
+                        delete madbot;
+                        bf.updateRobot(robots[i]);
                     }
                 }
             }
@@ -103,11 +182,13 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
                 {
                     robotank->randshootpro();
 
-                    if (robotank->getkills() >= 3)
+                    if (robotank->getkills() >= 1)
                     {
+                        string name = robotank->getname();
+                        evolveRobotank(name);
                         robots[i] = new UltimateRobot(bf, robotank->getname(), robotank->getx(), robotank->gety());
-                        delete robotank; // Clean up the old RoboCop instance
-                        cout << robots[i]->getname() << " has upgraded to RoboTank!!" << endl;
+                        delete robotank;
+                        bf.updateRobot(robots[i]);
                     }
                 }
             }
@@ -125,7 +206,11 @@ void simulateBattle(BattleField &bf, Robot *robots[], int numRobots, int battlef
         }
 
         // Display the battlefield after each turn
-        bf.display();
+        bf.display(cout);
+        ofstream bffile;
+        bffile.open("battlefield.txt");
+        bf.display(bffile);
+        bffile.close();
         cout << endl;
     }
 }

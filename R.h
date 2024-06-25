@@ -2,6 +2,7 @@
 #define R_H
 
 #include <string>
+#include <fstream>
 
 class BattleField;
 
@@ -18,6 +19,7 @@ protected:
 
 public:
     Robot(BattleField &obj, std::string n, int x, int y);
+    Robot &operator=(const Robot &other);
     virtual ~Robot();
 
     void setsymbol(char s);
@@ -78,6 +80,7 @@ class RoboCop : public Moving, public Shooting, public Looking
 {
 public:
     RoboCop(BattleField &obj, std::string n, int x, int y);
+    RoboCop& operator=(const RoboCop &other);
 
     void shoot();
 };
@@ -86,7 +89,7 @@ class Terminator : public Stepping, public Looking
 {
 public:
     Terminator(BattleField &obj, std::string n, int x, int y);
-
+    Terminator &operator=(const Terminator &other);
     void step();
 };
 
@@ -94,7 +97,7 @@ class TerminatorRoboCop : public RoboCop, public Terminator
 {
 public:
     TerminatorRoboCop(BattleField &obj, std::string n, int x, int y);
-
+    TerminatorRoboCop &operator=(const TerminatorRoboCop &other);
     void look(int x, int y);
 };
 
@@ -102,7 +105,7 @@ class BlueThunder : public Shooting
 {
 public:
     BlueThunder(BattleField &obj, std::string n, int x, int y);
-
+    BlueThunder &operator=(const BlueThunder &other);
     void clockshoot();
 };
 
@@ -110,7 +113,7 @@ class Madbot : public Shooting
 {
 public:
     Madbot(BattleField &obj, std::string n, int x, int y);
-
+    Madbot &operator=(const Madbot &other);
     void randshoot();
 };
 
@@ -118,7 +121,7 @@ class RoboTank : public Shooting
 {
 public:
     RoboTank(BattleField &obj, std::string n, int x, int y);
-
+    RoboTank &operator=(const RoboTank &other);
     void randshootpro();
 };
 
@@ -126,5 +129,6 @@ class UltimateRobot : public TerminatorRoboCop, public RoboTank
 {
 public:
     UltimateRobot(BattleField &obj, std::string n, int x, int y);
+    UltimateRobot &operator=(const UltimateRobot &other);
 };
 #endif
