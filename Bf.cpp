@@ -192,7 +192,7 @@ int BattleField::getheight() const
     return height;
 }
 
-void BattleField::updateRobot(Robot *newRobot)
+void BattleField::updateRobot(Robot *newRobot)  //update robot, mainly for evolving
 {
     // Find and remove the old robot from the grid
     for (int i = 0; i < height; ++i)
