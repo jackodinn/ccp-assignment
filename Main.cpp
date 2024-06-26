@@ -8,6 +8,7 @@ using namespace std;
 int main()
 {
     ofstream file;
+    file.open("battlefieldlog.txt", ios::trunc);
     // Assuming a battlefield size and a set of robots are created and initialized here
     int battlefieldLength = 5;
     int battlefieldHeight = 5;
