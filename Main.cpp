@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     ofstream file;
-    file.open("battlefieldlog.txt", ios::trunc);
+    file.open("battlefieldlog.txt", ios::trunc); //ios::trunc is clearing the text file after opening
     // Assuming a battlefield size and a set of robots are created and initialized here
     int battlefieldLength = 5;
     int battlefieldHeight = 5;
